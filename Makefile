@@ -49,7 +49,7 @@ build-tests: build-shared $(testsObj)
 	@echo "Building tests"
 	$(CC) $(sharedObj) $(testsObj) -o $(output)tests.exe
 
-test:
+test: build-tests
 	@echo ===[Running tests]===
 	$(output)tests.exe
 
