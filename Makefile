@@ -1,6 +1,3 @@
-binDir = bin/
-objDir = $(binDir)obj/
-relDir = $(binDir)rel/
 srcDir = src/
 
 program = program/
@@ -19,13 +16,12 @@ testsBin := $(objDir)$(tests)
 testsSrc := $(wildcard $(testsDir)*.c)
 testsObj := $(testsSrc:%.c=%.o)
 
-output = ./
 CC = gcc
 CFLAGS = -I. -I./$(sharedDir) --ansi
 
 build-run: build run
 
-build: build-shared build-tests test build-program
+build: test build-program
 
 rebuild: clean build
 
