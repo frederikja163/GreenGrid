@@ -1,6 +1,6 @@
 # CO2
 
-This is a opensource project developed by a group of university students at Aau. The goal is to calculate when home appliances have to start in order to use as little CO2 as possible.
+This is a opensource project developed by a group of university students at AAU. The goal is to calculate when home appliances have to start in order to use as little CO2 as possible.
 
 ## Building
 Make sure you have a recent version of gcc and make insalled.
