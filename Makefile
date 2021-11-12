@@ -1,6 +1,3 @@
-binDir = bin/
-objDir = $(binDir)obj/
-relDir = $(binDir)rel/
 srcDir = src/
 
 program = program/
@@ -19,40 +16,34 @@ testsBin := $(objDir)$(tests)
 testsSrc := $(wildcard $(testsDir)*.c)
 testsObj := $(testsSrc:%.c=%.o)
 
-output = bin/
 CC = gcc
 CFLAGS = -I. -I./$(sharedDir) --ansi
 
 build-run: build run
 
-build: build-shared build-tests test build-program
+build: test build-program
 
 rebuild: clean build
 
-clean-obj:
+clean:
 	rm -rf src/*/*.o
-
-clean-exe:
-	rm -rf bin/
-	mkdir bin/
-
-clean: clean-obj clean-exe
+	rm -rf *.exe
 
 build-shared: $(sharedObj)
 	@echo "Compiling shared"
 
-build-program: build-shared $(programObj)
-	@echo "Building program"
-	$(CC) $(sharedObj) $(programObj) -o $(output)program.exe
+test: build-tests
+	@echo ===[Running tests]===
+	./tests.exe
 
 build-tests: build-shared $(testsObj)
 	@echo "Building tests"
-	$(CC) $(sharedObj) $(testsObj) -o $(output)tests.exe
-
-test:
-	@echo ===[Running tests]===
-	$(output)tests.exe
+	$(CC) $(sharedObj) $(testsObj) -o ./tests.exe
 
 run: build-program
 	@echo ===[Running program]===
-	$(output)/program.exe
+	./program.exe
+
+build-program: build-shared $(programObj)
+	@echo "Building program"
+	$(CC) $(sharedObj) $(programObj) -o ./program.exe
