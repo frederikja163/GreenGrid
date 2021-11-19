@@ -1,4 +1,12 @@
-srcDir = src/
+src = src/
+srcDir = $(src)
+include := include/
+includeDir := $(include)
+lib = lib/
+libDir := $(lib)
+
+libs := $(wildcard $(libDir)*.dll.a)
+libsFlag := $(libs:lib/lib%.dll.a=-l%)
 
 program = program/
 programDir := $(srcDir)$(program)
@@ -17,7 +25,7 @@ testsSrc := $(wildcard $(testsDir)*.c)
 testsObj := $(testsSrc:%.c=%.o)
 
 CC = gcc
-CFLAGS = -I. -I./$(sharedDir) --ansi
+CFLAGS = -I./$(includeDir) -I./$(sharedDir) -L./$(libDir) $(libsFlag) --ansi
 
 build-run: build run
 
