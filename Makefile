@@ -29,7 +29,7 @@ CFLAGS = -I./$(includeDir) -I./$(sharedDir) -L./$(libDir) $(libsFlag) --ansi
 
 build-run: build run
 
-build: test build-program
+build: test program
 
 rebuild: clean build
 
@@ -37,21 +37,26 @@ clean:
 	rm -rf src/*/*.o
 	rm -rf *.exe
 
-build-shared: $(sharedObj)
-	@echo "Compiling shared"
+shared: $(sharedObj)
+	@echo
+	@echo =====[Compiling shared]=====
 
-test: build-tests
-	@echo ===[Running tests]===
+test: tests
+	@echo
+	@echo =====[Running tests]=====
 	./tests.exe
 
-build-tests: build-shared $(testsObj)
-	@echo "Building tests"
-	$(CC) $(sharedObj) $(testsObj) -o ./tests.exe
+tests: shared $(testsObj)
+	@echo
+	@echo =====[Linking tests]=====
+	$(CC) $(sharedObj) $(testsObj) -o ./tests.exe $(CFLAGS)
 
-run: build-program
-	@echo ===[Running program]===
+run: program
+	@echo
+	@echo =====[Running program]=====
 	./program.exe
 
-build-program: build-shared $(programObj)
-	@echo "Building program"
-	$(CC) $(sharedObj) $(programObj) -o ./program.exe
+program: shared $(programObj)
+	@echo
+	@echo =====[Linking program]=====
+	$(CC) $(sharedObj) $(programObj) -o ./program.exe $(CFLAGS)
