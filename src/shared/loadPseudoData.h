@@ -1,1 +1,1 @@
-int loadData(char *file_name);
+int loadData(const char *input_file, const char *output_file);
