@@ -1,4 +1,3 @@
-
 #define DATA_SIZE (7*24)
 
 struct emission_time
