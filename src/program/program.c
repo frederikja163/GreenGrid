@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "loadPseudoData.h"
-#include "sum.h"
 
 int main(void) {
     char *input = "src/shared/input.txt";
