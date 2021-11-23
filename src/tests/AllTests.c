@@ -8,8 +8,6 @@ int run_all_tests(void)
 {
 	CuString *output = CuStringNew();
 	CuSuite *suite = CuSuiteNew();
-
-	CuSuiteAddSuite(suite, get_sum_suite());
 	
 	CuSuiteRun(suite);
 	CuSuiteSummary(suite, output);
