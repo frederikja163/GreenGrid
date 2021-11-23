@@ -6,7 +6,6 @@
 #include "sum.h"
 
 int main(void) {
-    char *path_relative = "src/shared/";
     char *input = "src/shared/input.txt";
     char *output = "src/shared/output.txt";
 
