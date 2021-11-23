@@ -9,5 +9,5 @@ typedef struct emission_time emission_time;
 
 /*int compare_function (const void *ptr1, const void *ptr2); */
 void load_emission_data(emission_time *et, double emissions, int hour);
-int find_optimal_time(int active_hours);
+int find_optimal_time(int activeHours);
 void load_all_data(emission_time *data);
