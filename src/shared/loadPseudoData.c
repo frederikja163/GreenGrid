@@ -15,6 +15,15 @@ int loadData(const char *input_file, const char *output_file) {
         exit(EXIT_FAILURE);
     }
 
+    copyData(ifp, ofp);
+
     fclose(ifp);
     fclose(ofp);
+}
+
+void copyData(FILE *ifp, FILE *ofp) {
+    int c;
+    while ((c = fgetc(ifp)) != EOF) {
+        fputc(c, ofp);
+    }
 }
