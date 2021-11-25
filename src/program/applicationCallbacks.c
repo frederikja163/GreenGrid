@@ -1,12 +1,12 @@
 #include "applicationCallbacks.h"
 
-void application_activate(GApplication *app, gpointer userdata) {
-    GtkApplication *application = GTK_APPLICATION(app);
-    GtkWidget *widget = gtk_application_window_new(application);
-    GtkWindow *window = GTK_WINDOW(widget);
+void application_activate(GApplication *application, gpointer userdata) {
+    GtkWidget *window;
+    GtkBuilder *builder;
 
-    gtk_window_set_title(window, "Power consumption CO2 Calculator");
-    gtk_window_set_default_size(window, 400, 300);
+    builder = gtk_builder_new_from_file("bin/main.ui");
+    window = GTK_WIDGET(gtk_builder_get_object(builder, "win"));
+    gtk_window_set_application(GTK_WINDOW(window), GTK_APPLICATION(application));
 
-    gtk_window_present(window);
+    gtk_window_present(GTK_WINDOW(window));
 }

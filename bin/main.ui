@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <object class = "GtkApplicationWindow" id="win">
+        <property name="title">Shift power consumption TODO</property>
+        <property name="default-width">600</property>
+        <property name="default-height">400</property>
+        <child>
+            <object class="GtkBox" id="boxv">
+                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+                <child>
+                    <object class="GtkBox" id="boxh">
+                        <property name="orientation">GTK_ORIENTATION_HORIZONTAL</property>
+                        <child>
+                        <object class="GtkLabel" id="space0">
+                            <property name="width-chars">10</property>
+                        </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel" id="start">
+                                <property name="label">Start date: 1/1</property>
+                            </object>
+                        </child>
+                        <child>
+                        <object class="GtkLabel" id="space1">
+                            <property name="width-chars">10</property>
+                        </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel" id="end">
+                                <property name="label">End date: 4/1</property>
+                            </object>
+                        </child>
+                        <child>
+                        <object class="GtkLabel" id="space2">
+                            <property name="width-chars">10</property>
+                        </object>
+                        </child>
+                        <child>
+                            <object class="GtkLabel" id="duration">
+                                <property name="label">Duration: 5hrs</property>
+                            </object>
+                        </child>
+                        <child>
+                        <object class="GtkLabel" id="space3">
+                            <property name="width-chars">10</property>
+                        </object>
+                        </child>
+                    </object>
+                </child>
+            </object>
+        </child>
+    </object>
+</interface

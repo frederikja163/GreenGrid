@@ -25,7 +25,7 @@ testsSrc := $(wildcard $(testsDir)*.c)
 testsObj := $(testsSrc:%.c=%.o)
 
 CC = gcc
-CFLAGS = -I./$(includeDir) -I./$(sharedDir) -L./$(libDir) $(libsFlag) --ansi
+CFLAGS = -I./$(includeDir) -I./$(sharedDir) -L./$(libDir) $(libsFlag) -lcurl.dll --ansi -DCURL_STATICLIB
 
 build-run: build run
 
