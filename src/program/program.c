@@ -4,7 +4,7 @@
 
 #include "loadPseudoData.h"
 
-int main(void) {
+int main(int argc, char **argv) {
     char *input = "src/shared/input.txt";
     char *output = "src/shared/output.txt";
 
