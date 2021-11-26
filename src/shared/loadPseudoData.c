@@ -20,11 +20,14 @@ char *read_file(const char *fileName) {
     fileContents = malloc((fileSize + 1) * sizeof(char));
     if (fileContents == NULL) {
         fprintf(stderr, "Error : Unable to allocate memory.\n");
+        fclose(inputFilePtr);
         exit(EXIT_FAILURE);
     }
 
     if (fread(fileContents, sizeof(char), fileSize, inputFilePtr) < fileSize) {
         fprintf(stderr, "Error : Unable to read file to string.\n");
+        fclose(inputFilePtr);
+        free(fileContents);
         exit(EXIT_FAILURE);
     }
 
