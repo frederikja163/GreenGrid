@@ -5,10 +5,11 @@
 #include "loadPseudoData.h"
 
 int main(int argc, char **argv) {
-    char *input = "src/shared/input.txt";
-    char *output = "src/shared/output.txt";
+    char *contents = read_file("src/shared/input.txt");
 
-    loadData(input, output);
+    write_file("src/shared/output_file.txt", contents);
+
+    free(contents);
 
     return EXIT_SUCCESS;
 }

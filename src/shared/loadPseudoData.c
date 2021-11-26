@@ -3,27 +3,45 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int loadData(const char *input_file, const char *output_file) {
-    FILE *ifp, *ofp;
-
-    if ((ifp = fopen(input_file, "r")) == NULL) {
-        printf("Error : Unable to open %s for reading\n", input_file);
-        exit(EXIT_FAILURE);
-    }
-    if ((ofp = fopen(output_file, "w+")) == NULL) {
-        printf("Error : Unable to open %s for reading\n", output_file);
+char *read_file(const char *fileName) {
+    FILE *inputFilePtr;
+    char *fileContents;
+    size_t fileSize = 0;
+    if ((inputFilePtr = fopen(fileName, "r")) == NULL) {
+        fprintf(stderr, "Error : Unable to open %s for reading\n", fileName);
         exit(EXIT_FAILURE);
     }
 
-    copyData(ifp, ofp);
+    fseek(inputFilePtr, 0, SEEK_END);
+    fileSize = ftell(inputFilePtr);
+    fseek(inputFilePtr, 0, SEEK_SET);
 
-    fclose(ifp);
-    fclose(ofp);
+    fileContents = malloc((fileSize + 1) * sizeof(char));
+    if (fileContents == NULL) {
+        fprintf(stderr, "Error : Unable to allocate memory.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    if (fread(fileContents, sizeof(char), fileSize, inputFilePtr) < fileSize) {
+        fprintf(stderr, "Error : Unable to read file to string.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    fileContents[fileSize] = '\0';
+
+    fclose(inputFilePtr);
+
+    return fileContents;
 }
 
-void copyData(FILE *ifp, FILE *ofp) {
-    int c;
-    while ((c = fgetc(ifp)) != EOF) {
-        fputc(c, ofp);
+void write_file(const char *fileName, const char *fileContents) {
+    FILE *outputFilePtr;
+    if ((outputFilePtr = fopen(fileName, "w+")) == NULL) {
+        fprintf(stderr, "Error : Unable to open %s for writing\n", fileName);
+        exit(EXIT_FAILURE);
     }
+
+    fputs(fileContents, outputFilePtr);
+
+    fclose(outputFilePtr);
 }
