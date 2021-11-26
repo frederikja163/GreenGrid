@@ -24,7 +24,7 @@ testsSrc = $(wildcard $(testsDir)*.c)
 testsObj = $(testsSrc:%.c=%.o)
 
 CC = gcc
-CFLAGS = -I./$(includeDir) -I./$(sharedDir) -L./$(libDir) $(libsFlag) --ansi
+CFLAGS = -I./$(includeDir) -I./$(sharedDir) -L./$(libDir) $(libsFlag) --ansi -g
 
 build-run: build run
 
