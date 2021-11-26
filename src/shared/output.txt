@@ -1,8 +1,0 @@
-this is a test to see
-if I am capable of copying
-a file to another file,
-regardless of wether said
-file already exists or not.
-
-
-Will this also to be copied?

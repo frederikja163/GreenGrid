@@ -7,6 +7,7 @@ char *read_file(const char *fileName) {
     FILE *inputFilePtr;
     char *fileContents;
     size_t fileSize = 0;
+
     if ((inputFilePtr = fopen(fileName, "r")) == NULL) {
         fprintf(stderr, "Error : Unable to open %s for reading\n", fileName);
         exit(EXIT_FAILURE);
