@@ -1,10 +1,10 @@
-    /* 7 days in a week, 24 hours a day, 6*10 minutes in an hour */
-#define DATA_SIZE (7*24*6)
+    /* 97 datapoints input from the dmi parser */
+#define DATA_SIZE (97)
 
 struct emission_time
 {
     double emissions;
-    int min;
+    int hour;
 };
 typedef struct emission_time emission_time;
 

@@ -6,7 +6,7 @@
     /* Function to load specific emission data in each timeslot */
 void load_emission_data(emission_time *et, double emissions, int minsFromRequest) {
     et->emissions = emissions;
-    et->min = minsFromRequest;
+    et->hour = minsFromRequest;
 }
 
     /* compare function, lowest emission value gets pushed first 
@@ -32,7 +32,7 @@ void load_all_data(emission_time *data) {
                 currentEmissions = currentEmissions + (rand()%100)*-1;
             }
             load_emission_data(&data[i], currentEmissions, i*10);
-            printf ("Min from API request = %d, Emissions = %.2lf \n",data[i].min, data[i].emissions);   
+            printf ("Min from API request = %d, Emissions = %.2lf \n",data[i].hour, data[i].emissions);   
     }
 }
 
@@ -56,7 +56,7 @@ int find_optimal_time(int activeHours) {
         }
         if (currentEmissions < lowestEmissions) {
             lowestEmissions = currentEmissions;
-            optimalTime = data[i].min;
+            optimalTime = data[i].hour;
         }
     } 
     return optimalTime;
