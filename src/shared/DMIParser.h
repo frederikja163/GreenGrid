@@ -6,11 +6,11 @@
 #define CO2_DMIPARSER_H
 
 typedef struct windValue {
-    int timestamp;
+    char* timestamp;
     double windspeed;
 } windValue;
 
-windValue* ParseStringToWind(const char *input, int *lastUpdate);
+windValue* ParseStringToWind(const char *input, char *lastUpdate);
 
 /*typedef struct memory {
     char *response;

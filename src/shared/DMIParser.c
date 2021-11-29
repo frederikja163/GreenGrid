@@ -9,7 +9,7 @@
 /*#include <curl/curl.h>*/
 
 /*input ninjo2dnudk.json and you will get out an array of windValues and a timestamp for last update*/
-windValue* ParseStringToWind(const char *input, int *lastUpdate)
+windValue* ParseStringToWind(const char *input, char *lastUpdate)
 {
     cJSON *json = cJSON_Parse(input);
     if (json == NULL)
@@ -21,14 +21,15 @@ windValue* ParseStringToWind(const char *input, int *lastUpdate)
         }
         return 0;
     }
-
     cJSON *lastUpdateJson = cJSON_GetObjectItem(json, "lastupdate");
-    if (cJSON_IsString(lastUpdateJson) && (lastUpdateJson->valueint != 0))
+    if (cJSON_IsString(lastUpdateJson) && (lastUpdateJson->valuestring != NULL))
     {
-        printf("Input file last updated: \"%i\"\n", lastUpdateJson->valueint);
+        lastUpdate = lastUpdateJson->valuestring;
+        printf("Input file last updated: %s\n", lastUpdate);
     }
-    /*Test hertil i første omgang*/
-    windValue *values = malloc(sizeof(windValue)*95); /*timeserie of size 95*/
+    else
+        printf("Failed to get timestamp for last updated\n");
+    windValue *values = (windValue*) calloc(97, sizeof(windValue)); /*timeserie of size 97*/
     if(values == NULL)
         return 0;  /* out of memory! */
     int iterator = 0;
@@ -38,19 +39,36 @@ windValue* ParseStringToWind(const char *input, int *lastUpdate)
     {
         cJSON *time = cJSON_GetObjectItem(hour, "time");
         cJSON *windSpeed = cJSON_GetObjectItem(hour, "windSpeed");
-
-        if (!cJSON_IsNumber(time) || !cJSON_IsNumber(windSpeed))
+        if (!cJSON_IsString(time) || !cJSON_IsNumber(windSpeed))
         {
             continue;
         }
-        values[iterator].timestamp = time->valueint;
-        values[iterator].windspeed = hour->valuedouble;
+        /*printf("windspeed: %lf - ", windSpeed->valuedouble);
+        printf("time: %s ", time->valuestring);*/
+        values[iterator].windspeed = windSpeed->valuedouble;
+        values[iterator].timestamp = (char*) calloc(20, sizeof(char));
+        strcpy(values[iterator].timestamp, time->valuestring);
         iterator++;
     }
-
     cJSON_Delete(json);
     return values;
 }
+/* Working main for this
+int main(int argc, char **argv) {
+    char *inputString;
+    inputString = read_file("src/shared/ninjo2dmidk.json");
+    char *updateTimeStamp;
+    windValue* values = ParseStringToWind(inputString, updateTimeStamp);
+    printf("windspeed: %lf, timestamp: %s\n", values[0].windspeed, values[0].timestamp);
+
+    int i;
+    for (i = 0; i < 97; ++i) {
+        free(values[i].timestamp);
+    }
+    free(values);
+    free(inputString);
+    return (EXIT_SUCCESS);
+}*/
 
 /*cURL*/
 /*static size_t cb(void *data, size_t size, size_t nmemb, void *userp)
