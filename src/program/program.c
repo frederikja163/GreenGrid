@@ -12,4 +12,4 @@ int main(int argc, char **argv) {
     g_object_unref(application);
 
     return state;
-}
+} /**/
