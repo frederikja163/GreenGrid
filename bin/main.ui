@@ -2,8 +2,8 @@
 <interface>
     <object class = "GtkApplicationWindow" id="win">
         <property name="title">Shift power consumption TODO</property>
-        <property name="default-width">600</property>
-        <property name="default-height">400</property>
+        <property name="default-width">1280</property>
+        <property name="default-height">720</property>
         <child>
             <object class="GtkBox" id="boxv">
                 <property name="orientation">GTK_ORIENTATION_VERTICAL</property>

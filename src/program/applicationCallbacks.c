@@ -1,25 +1,29 @@
 #include "applicationCallbacks.h"
+
 #include <cairo.h>
 #include <math.h>
 #include <stdio.h>
 
+#include "cairoExtensions.h"
+
 static int f(int x) {
     int value = (int)(cos((double)x / 3.141) * 100);
-    printf("%i: %i\n", x, value);
     return value;
 }
 
 static void on_draw(GtkDrawingArea *drawing_area, cairo_t *cr, int width, int height, gpointer data) {
     cairo_set_source_rgb(cr, 0, 0, 0);
-    cairo_set_line_width(cr, 0.5);
-    cairo_scale(cr, 1, -1);
+    cairo_set_line_width(cr, 0.75);
 
     int i;
     for (i = 100; i < 200; i++) {
-        cairo_move_to(cr, i, f(i) - 200);
-        cairo_line_to(cr, i + 1, f(i+1) - 200);
+        cairo_line_to(cr, i + 1, f(i+1) + 200);
     }
+    cairo_stroke(cr);
 
+    cairo_set_line_width(cr, 2);
+    cairo_draw_arrow(cr, 50, 500, 50, 50, 10, 0.8);
+    cairo_draw_arrow(cr, 50, 500, 500, 500, 10, 0.8);
     cairo_stroke(cr);
 }
 
@@ -35,7 +39,7 @@ void application_activate(GApplication *application, gpointer userdata) {
     
     GtkWidget *area;
     area = gtk_drawing_area_new();
-    gtk_widget_allocate(area, 300, 300, -1, NULL);
+    gtk_widget_allocate(area, 700, 700, -1, NULL);
     gtk_widget_set_parent(area, window);
     gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(area), on_draw, NULL, NULL);
 }
