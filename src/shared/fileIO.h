@@ -3,3 +3,4 @@
 
 char *read_file(const char *fileName);
 void write_file(const char *fileName, const char *fileContents);
+FILE *open_file(const char *fileName, const char *mode);
