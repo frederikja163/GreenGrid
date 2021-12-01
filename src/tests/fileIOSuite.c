@@ -22,8 +22,8 @@ void test_read_write_roundtrip(CuTest *tc) {
     const char *string = TEST_STRING;
     char *read_string;
 
-    write_file("src/tests/testString.txt", string);
-    read_string = read_file("src/tests/testString.txt");
+    write_file("src/tests/testString.tmp", string);
+    read_string = read_file("src/tests/testString.tmp");
 
     CuAssertStrEquals(tc, string, read_string);
 
@@ -34,8 +34,8 @@ void test_write_file_exists(CuTest *tc) {
     const char *string = TEST_STRING;
     FILE *filePtr;
 
-    write_file("src/tests/testString2.txt", string);
-    CuAssertTrue(tc, (filePtr = fopen("src/tests/testString2.txt", "r")) != NULL);
+    write_file("src/tests/testString2.tmp", string);
+    CuAssertTrue(tc, (filePtr = fopen("src/tests/testString2.tmp", "r")) != NULL);
 
     fclose(filePtr);
 }
@@ -44,12 +44,12 @@ void test_write_file_size(CuTest *tc) {
     FILE *filePtr;
     const char string[] = TEST_STRING;
 
-    write_file("src/tests/testString3.txt", string);
+    write_file("src/tests/testString3.tmp", string);
 
 #ifdef _WIN32
     _setmode(_fileno(filePtr), _O_BINARY);
 #endif
-    if ((filePtr = fopen("src/tests/testString3.txt", "r")) == NULL) {
+    if ((filePtr = fopen("src/tests/testString3.tmp", "r")) == NULL) {
         fprintf(stderr, "Error : could not open file");
         exit(EXIT_FAILURE);
     }
@@ -71,7 +71,7 @@ void test_read_string_size(CuTest *tc) {
     char *read_string;
     size_t fileSize, readSize;
 
-    if ((filePtr = fopen("src/tests/testString3.txt", "r")) == NULL) {
+    if ((filePtr = fopen("src/tests/testString3.tmp", "r")) == NULL) {
         fprintf(stderr, "Error : could not open file");
         exit(EXIT_FAILURE);
     }
