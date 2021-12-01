@@ -4,7 +4,7 @@
         <property name="title">Shift power consumption TODO</property>
         <property name="default-width">1280</property>
         <property name="default-height">720</property>
-        <child>
+        <!-- <child>
             <object class="GtkBox" id="boxv">
                 <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
                 <child>
@@ -48,6 +48,6 @@
                     </object>
                 </child>
             </object>
-        </child>
+        </child> -->
     </object>
 </interface
