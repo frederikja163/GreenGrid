@@ -1,5 +1,5 @@
-    /* 97 datapoints input from the dmi parser */
-#define DATA_SIZE (97)
+    /* 50 datapoints input from the dmi parser */
+#define DATA_SIZE (50)
 
 struct emission_time
 {

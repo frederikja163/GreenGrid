@@ -59,5 +59,11 @@ int find_optimal_time(int activeHours) {
             optimalTime = data[i].hour;
         }
     } 
+    time_t curtime;
+
+    time(&curtime);
+
+    printf("Current time = %s", ctime(&curtime));
+    
     return optimalTime;
 }
