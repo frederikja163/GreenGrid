@@ -1,9 +1,9 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "calculateOptimalTime.h"
 
-int main(int argc, char **argv) {    
-    printf ("%d", find_optimal_time(3));
-    /* qsort(list, DATA_SIZE, sizeof(emission_time), compare_function); */
-
-    return EXIT_SUCCESS;
+int main(int argc, char **argv) {
+    char optimalTime[20];
+    printf("Optimal time to run is: %s", find_optimal_time(3, &optimalTime));
+    return (EXIT_SUCCESS);
 }
