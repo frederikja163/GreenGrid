@@ -1,0 +1,1 @@
+int check_outdated_data(int maxTimeDiff, char *receivingData);
