@@ -1,7 +1,3 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <cJSON.h>
 #include "DMIParser.h"
 
 /*input ninjo2dnudk.json and you will get out an array of windValues and a timestamp for last update*/

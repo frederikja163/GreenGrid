@@ -1,6 +1,10 @@
 #ifndef CO2_DMIPARSER_H
 
 #define CO2_DMIPARSER_H
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <cJSON.h>
 
 typedef struct windValue {
     char* timestamp;
