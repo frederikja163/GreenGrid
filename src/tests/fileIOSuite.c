@@ -9,15 +9,12 @@
 #include <string.h>
 
 #include "CuTest.h"
+#include "assertExtensions.h"
 #include "fileIO.h"
 
 #define TEST_STRING "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nMorbi dignissim nunc vel lectus egestas, nec rutrum nibh gravida.\n\t(){}[];:<>\\\"'"
 
-/* When writing to a file and reading the file to a string, it should be the same */
-/* When writing a file, a file should be at the specified path */
-/* The file size should equate to the size of the string */
-/* When reading a file, the string size should equate to the file size */
-
+/* Test to check that contents of a file are the same as a string read from the same file */
 void test_read_write_roundtrip(CuTest *tc) {
     const char *string = TEST_STRING;
     char *read_string;
@@ -30,6 +27,7 @@ void test_read_write_roundtrip(CuTest *tc) {
     free(read_string);
 }
 
+/* Test to check that a file is created on the specified path */
 void test_write_file_exists(CuTest *tc) {
     const char *string = TEST_STRING;
     FILE *filePtr;
@@ -40,19 +38,14 @@ void test_write_file_exists(CuTest *tc) {
     fclose(filePtr);
 }
 
+/* Test to check that the size of a new written file is equal to the size of a string read from the same file */
 void test_write_file_size(CuTest *tc) {
     FILE *filePtr;
     const char string[] = TEST_STRING;
 
     write_file("src/tests/testString3.tmp", string);
 
-#ifdef _WIN32
-    _setmode(_fileno(filePtr), _O_BINARY);
-#endif
-    if ((filePtr = fopen("src/tests/testString3.tmp", "r")) == NULL) {
-        fprintf(stderr, "Error : could not open file");
-        exit(EXIT_FAILURE);
-    }
+    assert_not_equal(filePtr = fopen("src/tests/testString3.tmp", "r"), NULL);
 
     fseek(filePtr, 0, SEEK_END);
     const size_t fileSize = ftell(filePtr);
@@ -66,33 +59,27 @@ void test_write_file_size(CuTest *tc) {
     fclose(filePtr);
 }
 
+/* Test to check that the size of a read file is equal to the size of a string read from the same file */
 void test_read_string_size(CuTest *tc) {
     FILE *filePtr;
     char *read_string;
+    const char string[] = TEST_STRING;
     size_t fileSize, readSize;
 
-    if ((filePtr = fopen("src/tests/testString3.tmp", "r")) == NULL) {
-        fprintf(stderr, "Error : could not open file");
-        exit(EXIT_FAILURE);
-    }
+    write_file("src/tests/testString4.tmp", string);
+
+    assert_not_equal(filePtr = fopen("src/tests/testString4.tmp", "r"), NULL);
 
     fseek(filePtr, 0, SEEK_END);
     fileSize = ftell(filePtr);
     fseek(filePtr, 0, SEEK_SET);
 
-    if ((read_string = malloc((fileSize + 1) * sizeof(char))) == NULL) {
-        fprintf(stderr, "Error : could not allocate memory");
-        exit(EXIT_FAILURE);
-    }
+    assert_not_equal(read_string = malloc((fileSize + 1) * sizeof(char)), NULL);
 
 #ifdef _WIN32
     _setmode(_fileno(filePtr), _O_BINARY);
 #endif
-    if ((readSize = fread(read_string, sizeof(char), fileSize, filePtr)) != fileSize) {
-        printf("\n%zu != %zu\n", readSize, fileSize);
-        fprintf(stderr, "Error : could not read file to string");
-        exit(EXIT_FAILURE);
-    }
+    readSize = fread(read_string, sizeof(char), fileSize, filePtr);
 
     CuAssertTrue(tc, readSize == fileSize);
 
