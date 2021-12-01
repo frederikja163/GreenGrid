@@ -46,7 +46,7 @@ static void on_draw(GtkDrawingArea *drawing_area, cairo_t *cr, int width, int he
     cairo_move_to(cr, GRAPH_MARGIN_X + GRAPH_SIZE_X, GRAPH_MARGIN_Y + GRAPH_SIZE_Y);
     cairo_show_text(cr, " Time");
     cairo_move_to(cr, GRAPH_MARGIN_X, GRAPH_MARGIN_Y);
-    cairo_show_text(cr, " CO2");
+    cairo_show_text(cr, "CO2");
 }
 
 void application_activate(GApplication *application, gpointer userdata) {

@@ -1,31 +1,30 @@
 src = src/
 srcDir = $(src)
-include := include/
-includeDir := $(include)
+includeDir = include/
 lib = lib/
-libDir := $(lib)
+libDir = $(lib)
 
-libs := $(wildcard $(libDir)*.dll.a)
-libsFlag := $(libs:lib/lib%.dll.a=-l%)
+libs = $(wildcard $(libDir)*.dll.a)
+libsFlag = $(libs:lib/lib%.dll.a=-l%)
 
 program = program/
-programDir := $(srcDir)$(program)
-programSrc := $(wildcard $(programDir)*.c)
-programObj := $(programSrc:%.c=%.o)
+programDir = $(srcDir)$(program)
+programSrc = $(wildcard $(programDir)*.c)
+programObj = $(programSrc:%.c=%.o)
 
 shared = shared/
-sharedDir := $(srcDir)$(shared)
-sharedSrc := $(wildcard $(sharedDir)*.c)
-sharedObj := $(sharedSrc:%.c=%.o)
+sharedDir = $(srcDir)$(shared)
+sharedSrc = $(wildcard $(sharedDir)*.c)
+sharedObj = $(sharedSrc:%.c=%.o)
 
 tests = tests/
-testsDir := $(srcDir)$(tests)
-testsBin := $(objDir)$(tests)
-testsSrc := $(wildcard $(testsDir)*.c)
-testsObj := $(testsSrc:%.c=%.o)
+testsDir = $(srcDir)$(tests)
+testsBin = $(objDir)$(tests)
+testsSrc = $(wildcard $(testsDir)*.c)
+testsObj = $(testsSrc:%.c=%.o)
 
 CC = gcc
-CFLAGS = -I./$(includeDir) -I./$(sharedDir) -L./$(libDir) $(libsFlag) -lcurl.dll --ansi -DCURL_STATICLIB
+CFLAGS = -I./$(includeDir) -I./$(sharedDir) -L./$(libDir) $(libsFlag) --ansi -g
 
 build-run: build run
 
