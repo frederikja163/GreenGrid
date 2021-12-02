@@ -1,6 +1,6 @@
-#ifndef calculateOptimalTime_H
+#ifndef CALCULATEOPTIMALTIME_H
 
-#define calculateOptimalTime_H
+#define CALCULATEOPTIMALTIME_H
 #define DATA_SIZE 53
 
 char * find_optimal_time(int activeHours, char *);
