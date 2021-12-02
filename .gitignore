@@ -1,5 +1,6 @@
 .vscode/
 .idea/
 .vs/
-.o
-.exe
+*.o
+*.exe
+*.tmp
