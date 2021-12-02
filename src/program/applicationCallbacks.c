@@ -4,6 +4,8 @@
 #include <math.h>
 #include <stdio.h>
 
+#include "loadPseudoData.h"
+#include "DMIParser.h"
 #include "cairoExtensions.h"
 
 #define GRAPH_ARROW_LEG_LENGTH 10
@@ -20,13 +22,19 @@ static int f(int x) {
 }
 
 static void on_draw(GtkDrawingArea *drawing_area, cairo_t *cr, int width, int height, gpointer data) {
+    char *inputString = read_file("bin/ninjo2dmidk.json");
+    char *updateTimeStamp;
+    windValue *values = ParseStringToWind(inputString, &updateTimeStamp);
+    free(inputString);
+    free(updateTimeStamp);
+
     cairo_select_font_face(cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
     cairo_set_source_rgb(cr, 0, 0, 0);
     
     cairo_set_line_width(cr, 0.75);
     int i;
-    for (i = 100; i < 200; i++) {
-        cairo_line_to(cr, i + 1, f(i+1) + 200);
+    for (i = 0; i < 96; i++) {
+        cairo_line_to(cr, GRAPH_MARGIN_X + i * GRAPH_SIZE_X / 96, GRAPH_MARGIN_Y + values[i].windspeed * 25000 / GRAPH_SIZE_Y);
     }
     cairo_stroke(cr);
 
