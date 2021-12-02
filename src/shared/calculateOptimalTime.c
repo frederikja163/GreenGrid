@@ -1,4 +1,3 @@
-/* Calculating emissions Poggers */
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
@@ -20,7 +19,10 @@ char * find_optimal_time(int activeHours, char *optimalTime) {
     for(i = 0; i < DATA_SIZE-(activeHours+1); i++) { 
         currentWindspeed = 0;
         for(j = 0; j < activeHours; j++) {
-            currentWindspeed += values[i+j].windspeed;
+            /* Cut-in and cut out speed of vestas windturbines */
+            if(values[i+j].windspeed >= 3 && values[i+j].windspeed <= 25) {
+                currentWindspeed += values[i+j].windspeed;
+            }
         }
         if (currentWindspeed > highestWindspeed) {
             highestWindspeed = currentWindspeed;
