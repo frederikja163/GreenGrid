@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "sum.h"
+#include "checkOutdatedData.h"
 
 int main(void) {
-    printf("5 + 4 = %i\n", sum(5, 4));
-
+    const char * receivingData = "20211122080000";
+    check_outdated_data(88888, receivingData);
     return EXIT_SUCCESS;
 }

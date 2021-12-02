@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "checkOutdatedData.h"
 
 int check_outdated_data(int maxTimeDiff, const char * receivingData) {
     time_t curTime = time(NULL);
