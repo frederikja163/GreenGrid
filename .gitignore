@@ -3,4 +3,4 @@
 .vs/
 *.o
 *.exe
-*.txt
+*.tmp
