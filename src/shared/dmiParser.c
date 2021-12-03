@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <cJSON.h>
-#include "DMIParser.h"
+#include "dmiParser.h"
 
 /*input ninjo2dnudk.json and you will get out an array of windValues and a timestamp for last update*/
-windValue* ParseStringToWind(const char *input, char *lastUpdate)
+windValue* load_wind_data(const char *input, char **lastUpdate)
 {
     cJSON *json = cJSON_Parse(input);
     if (json == NULL)
@@ -17,17 +17,25 @@ windValue* ParseStringToWind(const char *input, char *lastUpdate)
         }
         return 0;
     }
+
     cJSON *lastUpdateJson = cJSON_GetObjectItem(json, "lastupdate");
     if (cJSON_IsString(lastUpdateJson) && (lastUpdateJson->valuestring != NULL))
     {
-        lastUpdate = lastUpdateJson->valuestring;
-        /*printf("Input file last updated: %s\n", lastUpdate);*/
+        int strLen = strlen(lastUpdateJson->valuestring);
+        *lastUpdate = malloc((strLen + 1) * sizeof(char));
+        if (*lastUpdate == NULL) {
+            return 0;
+        }
+        strcpy(*lastUpdate, lastUpdateJson->valuestring);
+        /*printf("Input file last updated: %s\n", *lastUpdate);*/
     }
     else
         printf("Failed to get timestamp for last updated\n");
+    
     windValue *values = (windValue*) calloc(97, sizeof(windValue)); /*timeserie of size 97*/
     if(values == NULL)
         return 0;  /* out of memory! */
+    
     int iterator = 0;
     cJSON *timeserie = cJSON_GetObjectItem(json, "timeserie");
     cJSON *hour;
@@ -45,5 +53,6 @@ windValue* ParseStringToWind(const char *input, char *lastUpdate)
         iterator++;
     }
     cJSON_Delete(json);
+
     return values;
 }
