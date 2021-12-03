@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
-#include "DMIParser.h"
+#include "dmiParser.h"
 #include "fileIO.h"
 
 
