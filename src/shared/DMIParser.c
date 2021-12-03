@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <cJSON.h>
-#include "DMIParser.h"
+#include "dmiParser.h"
 
 /*input ninjo2dnudk.json and you will get out an array of windValues and a timestamp for last update*/
 windValue* load_wind_data(const char *input, char **lastUpdate)

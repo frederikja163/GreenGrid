@@ -1,5 +1,5 @@
-#ifndef DMIPARSER_H
-#define DMIPARSER_H
+#ifndef DMI_PARSER_H
+#define DMI_PARSER_H
 
 typedef struct windValue {
     char* timestamp;
