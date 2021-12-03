@@ -25,6 +25,7 @@ void test_not_outdated_data(CuTest *tc) {
     char timeStr[15];
 
     assert_equal(strftime(timeStr, sizeof(timeStr), "%Y%m%d%H%M%S", timeInfo), sizeof(timeStr)-1);
+    printf("%s\n%i\n", timeStr, !is_data_outdated(MAX_TIME_DIFF, timeStr));
     
     CuAssertTrue(tc, !is_data_outdated(MAX_TIME_DIFF, timeStr));
 }
