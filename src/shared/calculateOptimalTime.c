@@ -38,7 +38,6 @@ char* find_lowest_co2(int activeHours, windValue *values, int data_size) {
         if (i >= activeHours) {
             currentCO2 -= calculate_co2(values[i-activeHours].windspeed);
 
-            fprintf(stderr,"Place [%d]:= CurrentCO2 = %lf\n",i, currentCO2);
             if (currentCO2 < lowestCO2) {
                 lowestCO2 = currentCO2;
                 strcpy(optimalTime, values[i-activeHours+1].timestamp);

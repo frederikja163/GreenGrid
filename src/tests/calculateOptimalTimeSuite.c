@@ -7,7 +7,7 @@
 
 
 
-void optimal_time_algorithm (CuTest *tc) {
+void test_optimal_time(CuTest *tc) {
     int activeHours = 3;
     windValue testArray[] = {
         {.timestamp = "20211125170000", .windspeed = 17.0},
@@ -34,10 +34,15 @@ void optimal_time_algorithm (CuTest *tc) {
     CuAssertStrEquals(tc, testArray[12].timestamp, optimalTime);
 }
 
+/*void test_calculate_co2 (CuTest *tc) {
+
+    CuAssertTrue()
+} */
+
 CuSuite *calculate_optimal_time_suite(void) {
     CuSuite *suite = CuSuiteNew();    
 
-    SUITE_ADD_TEST(suite, optimal_time_algorithm);
+    SUITE_ADD_TEST(suite, test_optimal_time);
 
     return suite;
 }
