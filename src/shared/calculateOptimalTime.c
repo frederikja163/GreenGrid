@@ -16,6 +16,7 @@ char * find_optimal_time(int activeHours) {
     }
     free(values);
     free(inputString);
+    free(updateTimeStamp);
 
     /* Remember to free the optimalTime value after use (To anyone using it) */
     return optimalTime;
