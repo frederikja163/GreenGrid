@@ -6,8 +6,10 @@ char * find_optimal_time(int activeHours) {
     int i;
     char *inputString;
     char *updateTimeStamp;
-    inputString = read_file("src/shared/ninjo2dmidk.json");
-    windValue *values = load_wind_data(inputString, updateTimeStamp);
+    inputString = read_file("bin/ninjo2dmidk.json");
+    windValue *values = load_wind_data(inputString, &updateTimeStamp);
+    free(inputString);
+    free(updateTimeStamp);
 
     char *optimalTime = find_highest_windspeeds(activeHours, values, DATA_SIZE);
 
@@ -15,8 +17,6 @@ char * find_optimal_time(int activeHours) {
         free(values[i].timestamp);
     }
     free(values);
-    free(inputString);
-    free(updateTimeStamp);
 
     /* Remember to free the optimalTime value after use (To anyone using it) */
     return optimalTime;
