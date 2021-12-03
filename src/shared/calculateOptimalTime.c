@@ -1,22 +1,32 @@
-#include <stdio.h>
-#include <time.h>
-#include <string.h>
 #include "calculateOptimalTime.h"
-#include "DMIParser.h"
-#include "fileIO.h"
 
     /* Algorithm to find the most optimal time to run based 
        on array of windspeed data and the device's hours active */
-char * find_optimal_time(int activeHours, char *optimalTime) {
+char * find_optimal_time(int activeHours) {
+    int i;
+    char *inputString;
+    char *updateTimeStamp;
+    inputString = read_file("src/shared/ninjo2dmidk.json");
+    windValue *values = ParseStringToWind(inputString, updateTimeStamp);
+
+    char *optimalTime = find_highest_windspeeds(activeHours, values, DATA_SIZE);
+
+    for (i = 0; i < 97; ++i) {
+        free(values[i].timestamp);
+    }
+    free(values);
+    free(inputString);
+
+    return optimalTime;
+}
+
+char * find_highest_windspeeds(int activeHours, windValue *values, int data_size){
     int i, j;
     double currentWindspeed = 0;
     double highestWindspeed = 0; 
-    char *inputString;
-    inputString = read_file("src/shared/ninjo2dmidk.json");
-    char *updateTimeStamp;
-    windValue* values = ParseStringToWind(inputString, updateTimeStamp);
+    char *optimalTime = (char*) calloc(20, sizeof(char));
     
-    for(i = 0; i < DATA_SIZE-(activeHours+1); i++) { 
+    for(i = 0; i < data_size-(activeHours-1); i++) { 
         currentWindspeed = 0;
         for(j = 0; j < activeHours; j++) {
             /* Cut-in and cut out speed of vestas windturbines */
@@ -28,11 +38,6 @@ char * find_optimal_time(int activeHours, char *optimalTime) {
             highestWindspeed = currentWindspeed;
             strcpy(optimalTime, values[i].timestamp);
         }
-    } 
-    for (i = 0; i < 97; ++i) {
-        free(values[i].timestamp);
     }
-    free(values);
-    free(inputString);
     return optimalTime;
 }
