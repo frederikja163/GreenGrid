@@ -9,7 +9,7 @@
 
 /* Test if the function returns 0 when MAX_TIME_DIFF is exceeded by recievingData. */
 void test_outdated_data(CuTest *tc) {
-    time_t curTime = time(NULL) - MAX_TIME_DIFF;
+    time_t curTime = time(NULL) - MAX_TIME_DIFF - 60;
     struct tm * timeInfo = localtime(&curTime);
     char timeStr[15];
 
