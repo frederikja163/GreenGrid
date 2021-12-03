@@ -5,7 +5,7 @@
 #include "DMIParser.h"
 
 /*input ninjo2dnudk.json and you will get out an array of windValues and a timestamp for last update*/
-windValue* ParseStringToWind(const char *input, char *lastUpdate)
+windValue* ParseStringToWind(const char *input, char **lastUpdate)
 {
     cJSON *json = cJSON_Parse(input);
     if (json == NULL)
@@ -20,8 +20,10 @@ windValue* ParseStringToWind(const char *input, char *lastUpdate)
     cJSON *lastUpdateJson = cJSON_GetObjectItem(json, "lastupdate");
     if (cJSON_IsString(lastUpdateJson) && (lastUpdateJson->valuestring != NULL))
     {
-        lastUpdate = lastUpdateJson->valuestring;
-        /*printf("Input file last updated: %s\n", lastUpdate);*/
+        int strLen = strlen(lastUpdateJson->valuestring);
+        *lastUpdate = malloc((strLen + 1) * sizeof(char));
+        strcpy(*lastUpdate, lastUpdateJson->valuestring);
+        /*printf("Input file last updated: %s\n", *lastUpdate);*/
     }
     else
         printf("Failed to get timestamp for last updated\n");

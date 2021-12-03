@@ -1,5 +1,4 @@
 #ifndef CO2_DMIPARSER_H
-
 #define CO2_DMIPARSER_H
 
 typedef struct windValue {
@@ -7,7 +6,7 @@ typedef struct windValue {
     double windspeed;
 } windValue;
 
-windValue* ParseStringToWind(const char *input, char *lastUpdate);
+/* FIXME: Update file name and method name. */
+windValue* ParseStringToWind(const char *input, char **lastUpdate);
 
 #endif
-
