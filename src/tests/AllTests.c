@@ -3,13 +3,15 @@
 #include "CuTest.h"
 
 CuSuite *get_file_io_suite(void);
+CuSuite *get_outdated_data_suite(void);
 
 int run_all_tests(void) {
     CuString *output = CuStringNew();
     CuSuite *suite = CuSuiteNew();
 
     CuSuiteAddSuite(suite, get_file_io_suite());
-
+    CuSuiteAddSuite(suite, get_outdated_data_suite());
+    
     CuSuiteRun(suite);
     CuSuiteSummary(suite, output);
     CuSuiteDetails(suite, output);
