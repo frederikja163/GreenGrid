@@ -24,8 +24,8 @@ void TestCJSONParse(CuTest *tc)
         {
             printf("Error at: %s", error);
         }
-        return 0;
     }
+    void CuAssertTrue(tc, json == NULL);
 }
 void TestReadOfLastUpdated(CuTest *tc)
 {
