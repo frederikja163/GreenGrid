@@ -24,13 +24,12 @@ void optimal_time_algorithm (CuTest *tc) {
         {.timestamp = "20211126040000", .windspeed = 0.0},
         {.timestamp = "20211126050000", .windspeed = 15.6},
         {.timestamp = "20211126060000", .windspeed = 10.2},
-        {.timestamp = "20211126070000", .windspeed = 18.7},
-        {.timestamp = "20211126080000", .windspeed = 30.3}
+        {.timestamp = "20211126070000", .windspeed = 18.7}
     };
 
     int dataSize = sizeof(testArray) / sizeof(windValue);
 
-    char *optimalTime = find_highest_windspeeds(activeHours, testArray, dataSize);
+    char *optimalTime = find_lowest_co2(activeHours, testArray, dataSize);
 
     CuAssertStrEquals(tc, testArray[12].timestamp, optimalTime);
 }
