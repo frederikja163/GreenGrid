@@ -7,7 +7,7 @@ char * find_optimal_time(int activeHours) {
     char *inputString;
     char *updateTimeStamp;
     inputString = read_file("src/shared/ninjo2dmidk.json");
-    windValue *values = ParseStringToWind(inputString, updateTimeStamp);
+    windValue *values = load_wind_data(inputString, updateTimeStamp);
 
     char *optimalTime = find_highest_windspeeds(activeHours, values, DATA_SIZE);
 
