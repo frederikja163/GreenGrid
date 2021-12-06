@@ -7,6 +7,7 @@
 #include "fileIO.h"
 #include "dmiParser.h"
 #include "cairoExtensions.h"
+#include "calculateOptimalTime.h"
 
 #define GRAPH_ARROW_LEG_LENGTH 10
 #define GRAPH_ARROW_ANGLE 0.8
@@ -37,7 +38,8 @@ static void on_draw(GtkDrawingArea *drawing_area, cairo_t *cr, int width, int he
     cairo_set_line_width(cr, 0.75);
     int i;
     for (i = 0; i < 96; i++) {
-        cairo_line_to(cr, GRAPH_PADDING_X + i * width / 96, GRAPH_PADDING_Y + values[i].windspeed * height / 8);
+        printf("wind: %lf, co2: %lf\n", values[i].windspeed, calculate_co2(values[i].windspeed));
+        cairo_line_to(cr, GRAPH_PADDING_X + i * width / 96, GRAPH_PADDING_Y + (25 - calculate_co2(values[i].windspeed)) * height / 25);
     }
     cairo_stroke(cr);
 

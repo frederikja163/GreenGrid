@@ -60,3 +60,8 @@ program: shared $(programObj)
 	@echo
 	@echo =====[Linking program]=====
 	$(CC) $(sharedObj) $(programObj) -o ./program.exe $(CFLAGS)
+
+update:
+	@echo
+	@echo =====[Updating ninjo2dmidk.json]=====
+	wget "https://www.dmi.dk/NinJo2DmiDk/ninjo2dmidk?cmd=llj&ids=2624886" -O bin/ninjo2dmidk.json
