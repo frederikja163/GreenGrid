@@ -1,6 +1,7 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <time.h>
-#include <stdbool.h>
+
 #include "CuTest.h"
 #include "assertExtensions.h"
 #include "isDataOutdated.h"
@@ -10,23 +11,22 @@
 /* Test if the function returns 0 when MAX_TIME_DIFF is exceeded by recievingData. */
 void test_outdated_data(CuTest *tc) {
     time_t curTime = time(NULL) - MAX_TIME_DIFF - 60;
-    struct tm * timeInfo = localtime(&curTime);
+    struct tm *timeInfo = localtime(&curTime);
     char timeStr[15];
 
-    assert_equal(strftime(timeStr, sizeof(timeStr), "%Y%m%d%H%M%S", timeInfo), sizeof(timeStr)-1);
-    
+    assert_equal(strftime(timeStr, sizeof(timeStr), "%Y%m%d%H%M%S", timeInfo), sizeof(timeStr) - 1);
+
     CuAssertTrue(tc, is_data_outdated(MAX_TIME_DIFF, timeStr));
 }
 
 /* Test if the function returns 1 when MAX_TIME_DIFF is not exceeded by recievingData. */
 void test_not_outdated_data(CuTest *tc) {
     time_t curTime = time(NULL);
-    struct tm * timeInfo = localtime(&curTime);
+    struct tm *timeInfo = localtime(&curTime);
     char timeStr[15];
 
-    assert_equal(strftime(timeStr, sizeof(timeStr), "%Y%m%d%H%M%S", timeInfo), sizeof(timeStr)-1);
-    printf("%s\n%i\n", timeStr, !is_data_outdated(MAX_TIME_DIFF, timeStr));
-    
+    assert_equal(strftime(timeStr, sizeof(timeStr), "%Y%m%d%H%M%S", timeInfo), sizeof(timeStr) - 1);
+
     CuAssertTrue(tc, !is_data_outdated(MAX_TIME_DIFF, timeStr));
 }
 
