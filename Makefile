@@ -64,4 +64,4 @@ program: shared $(programObj)
 update:
 	@echo
 	@echo =====[Updating ninjo2dmidk.json]=====
-	wget "https://www.dmi.dk/NinJo2DmiDk/ninjo2dmidk?cmd=llj&ids=2624886" -O bin/ninjo2dmidk.json
+	curl "https://www.dmi.dk/NinJo2DmiDk/ninjo2dmidk?cmd=llj&ids=2624886" -o bin/ninjo2dmidk.json
