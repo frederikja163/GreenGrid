@@ -10,8 +10,8 @@
 
 #define GRAPH_ARROW_LEG_LENGTH 10
 #define GRAPH_ARROW_ANGLE 0.8
-#define GRAPH_MARGIN_X 50
-#define GRAPH_MARGIN_Y 50
+#define GRAPH_PADDING_X 50
+#define GRAPH_PADDING_Y 50
 #define GRAPH_SIZE_X 500
 #define GRAPH_SIZE_Y 500
 #define GRAPH_AXIS_LABEL_SIZE 10
@@ -22,6 +22,9 @@ static int f(int x) {
 }
 
 static void on_draw(GtkDrawingArea *drawing_area, cairo_t *cr, int width, int height, gpointer data) {
+    width -= GRAPH_PADDING_X * 2;
+    height -= GRAPH_PADDING_Y * 2;
+
     char *inputString = read_file("bin/ninjo2dmidk.json");
     char *updateTimeStamp;
     windValue *values = load_wind_data(inputString, &updateTimeStamp);
@@ -34,26 +37,26 @@ static void on_draw(GtkDrawingArea *drawing_area, cairo_t *cr, int width, int he
     cairo_set_line_width(cr, 0.75);
     int i;
     for (i = 0; i < 96; i++) {
-        cairo_line_to(cr, GRAPH_MARGIN_X + i * GRAPH_SIZE_X / 96, GRAPH_MARGIN_Y + values[i].windspeed * 25000 / GRAPH_SIZE_Y);
+        cairo_line_to(cr, GRAPH_PADDING_X + i * width / 96, GRAPH_PADDING_Y + values[i].windspeed * height / 8);
     }
     cairo_stroke(cr);
 
     /* Draw arrows for axis. */
     cairo_set_line_width(cr, 2);
     cairo_draw_arrow(cr,
-                        GRAPH_MARGIN_X, GRAPH_MARGIN_Y + GRAPH_SIZE_Y,
-                        GRAPH_MARGIN_X, GRAPH_MARGIN_Y,
+                        GRAPH_PADDING_X, GRAPH_PADDING_Y + height,
+                        GRAPH_PADDING_X, GRAPH_PADDING_Y,
                         GRAPH_ARROW_LEG_LENGTH, GRAPH_ARROW_ANGLE);
     cairo_draw_arrow(cr,
-                        GRAPH_MARGIN_X, GRAPH_SIZE_Y + GRAPH_MARGIN_Y,
-                        GRAPH_MARGIN_X + GRAPH_SIZE_X, GRAPH_MARGIN_Y + GRAPH_SIZE_Y,
+                        GRAPH_PADDING_X, height + GRAPH_PADDING_Y,
+                        GRAPH_PADDING_X + width, GRAPH_PADDING_Y + height,
                         GRAPH_ARROW_LEG_LENGTH, GRAPH_ARROW_ANGLE);
     cairo_stroke(cr);
 
     cairo_set_font_size(cr, GRAPH_AXIS_LABEL_SIZE);
-    cairo_move_to(cr, GRAPH_MARGIN_X + GRAPH_SIZE_X, GRAPH_MARGIN_Y + GRAPH_SIZE_Y);
+    cairo_move_to(cr, GRAPH_PADDING_X + width, GRAPH_PADDING_Y + height);
     cairo_show_text(cr, " Time");
-    cairo_move_to(cr, GRAPH_MARGIN_X, GRAPH_MARGIN_Y);
+    cairo_move_to(cr, GRAPH_PADDING_X, GRAPH_PADDING_Y);
     cairo_show_text(cr, "CO2");
 }
 
@@ -62,18 +65,14 @@ void application_activate(GApplication *application, gpointer userdata) {
 
     window = gtk_application_window_new(GTK_APPLICATION(application));
     gtk_window_set_title (GTK_WINDOW(window), "CO2 calculator");
-    gtk_window_set_default_size (GTK_WINDOW(window), GRAPH_MARGIN_X * 2 + GRAPH_SIZE_X, GRAPH_MARGIN_Y * 2 + GRAPH_SIZE_Y);
+    gtk_window_set_default_size (GTK_WINDOW(window), 500, 500);
     gtk_window_set_application(GTK_WINDOW(window), GTK_APPLICATION(application));
 
-    gtk_window_present(GTK_WINDOW(window));
-    
-    GtkWidget *areaContainer = gtk_fixed_new();
-    gtk_fixed_put(GTK_FIXED(areaContainer), window, 50, 50);
-    gtk_widget_set_parent(areaContainer, window);
-
-    /* GtkWidget *area;
+    GtkWidget *area;
     area = gtk_drawing_area_new();
-    gtk_widget_allocate(area, GRAPH_MARGIN_X * 2 + GRAPH_SIZE_X, GRAPH_MARGIN_Y * 2 + GRAPH_SIZE_Y, -1, NULL);
-    gtk_widget_set_parent(area, areaContainer);
-    gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(area), on_draw, NULL, NULL); */
+    gtk_widget_allocate(area, 500, 500, -1, NULL);
+    gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(area), on_draw, NULL, NULL);
+    gtk_window_set_child(GTK_WINDOW(window), area);
+    
+    gtk_window_present(GTK_WINDOW(window));
 }
