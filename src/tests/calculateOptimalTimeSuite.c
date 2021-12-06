@@ -63,7 +63,6 @@ void test_optimal_time2(CuTest *tc) {
 
 void test_calculate_co2 (CuTest *tc) {
     double testvalue = calculate_co2(14.4);
-    fprintf(stderr,"Yeet = %lf", testvalue);
     CuAssertDblEquals(tc, 10.6, testvalue, 0.1);
 } 
 
