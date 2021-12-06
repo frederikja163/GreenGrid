@@ -34,6 +34,7 @@ rebuild: clean build
 
 clean:
 	rm -rf src/*/*.o
+	rm -rf src/*/*.tmp
 	rm -rf *.exe
 
 shared: $(sharedObj)

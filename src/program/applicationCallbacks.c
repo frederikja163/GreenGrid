@@ -4,8 +4,8 @@
 #include <math.h>
 #include <stdio.h>
 
-#include "loadPseudoData.h"
-#include "DMIParser.h"
+#include "fileIO.h"
+#include "dmiParser.h"
 #include "cairoExtensions.h"
 
 #define GRAPH_ARROW_LEG_LENGTH 10
@@ -24,7 +24,7 @@ static int f(int x) {
 static void on_draw(GtkDrawingArea *drawing_area, cairo_t *cr, int width, int height, gpointer data) {
     char *inputString = read_file("bin/ninjo2dmidk.json");
     char *updateTimeStamp;
-    windValue *values = ParseStringToWind(inputString, &updateTimeStamp);
+    windValue *values = load_wind_data(inputString, &updateTimeStamp);
     free(inputString);
     free(updateTimeStamp);
 
@@ -59,17 +59,21 @@ static void on_draw(GtkDrawingArea *drawing_area, cairo_t *cr, int width, int he
 
 void application_activate(GApplication *application, gpointer userdata) {
     GtkWidget *window;
-    GtkBuilder *builder;
 
-    builder = gtk_builder_new_from_file("bin/main.ui");
-    window = GTK_WIDGET(gtk_builder_get_object(builder, "win"));
+    window = gtk_application_window_new(GTK_APPLICATION(application));
+    gtk_window_set_title (GTK_WINDOW(window), "CO2 calculator");
+    gtk_window_set_default_size (GTK_WINDOW(window), GRAPH_MARGIN_X * 2 + GRAPH_SIZE_X, GRAPH_MARGIN_Y * 2 + GRAPH_SIZE_Y);
     gtk_window_set_application(GTK_WINDOW(window), GTK_APPLICATION(application));
 
     gtk_window_present(GTK_WINDOW(window));
     
-    GtkWidget *area;
+    GtkWidget *areaContainer = gtk_fixed_new();
+    gtk_fixed_put(GTK_FIXED(areaContainer), window, 50, 50);
+    gtk_widget_set_parent(areaContainer, window);
+
+    /* GtkWidget *area;
     area = gtk_drawing_area_new();
-    gtk_widget_allocate(area, 700, 700, -1, NULL);
-    gtk_widget_set_parent(area, window);
-    gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(area), on_draw, NULL, NULL);
+    gtk_widget_allocate(area, GRAPH_MARGIN_X * 2 + GRAPH_SIZE_X, GRAPH_MARGIN_Y * 2 + GRAPH_SIZE_Y, -1, NULL);
+    gtk_widget_set_parent(area, areaContainer);
+    gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(area), on_draw, NULL, NULL); */
 }
