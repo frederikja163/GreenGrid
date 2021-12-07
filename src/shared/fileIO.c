@@ -17,25 +17,15 @@ char *read_file(const char *fileName) {
     size_t fileSize = 0;
     size_t readSize;
 
-    if ((inputFilePtr = fopen(fileName, "r")) == NULL) {
-        fprintf(stderr, "Error : could not open file");
-        exit(EXIT_FAILURE);
-    }
+    assert_not_equal(inputFilePtr = fopen(fileName, "r"), NULL);
 
     fseek(inputFilePtr, 0, SEEK_END);
     fileSize = ftell(inputFilePtr);
     fseek(inputFilePtr, 0, SEEK_SET);
 
-    if ((fileContents = malloc((fileSize + 1) * sizeof(char))) == NULL) {
-        fprintf(stderr, "Error : could not allocate memory");
-        exit(EXIT_FAILURE);
-    }
+    assert_not_equal(fileContents = malloc((fileSize + 1) * sizeof(char)), NULL);
 
-    if ((readSize = fread(fileContents, sizeof(char), fileSize, inputFilePtr)) != fileSize) {
-        printf("\n%zu != %zu\n", readSize, fileSize);
-        fprintf(stderr, "Error : could not read file to string");
-        exit(EXIT_FAILURE);
-    }
+    assert_equal(readSize = fread(fileContents, sizeof(char), fileSize, inputFilePtr), fileSize);
 
     fileContents[fileSize] = '\0';
 
@@ -51,10 +41,8 @@ void write_file(const char *fileName, const char *fileContents) {
     FILE *outputFilePtr;
     size_t fileSize = strlen(fileContents);
 
-    if ((outputFilePtr = fopen(fileName, "w+")) == NULL) {
-        fprintf(stderr, "Error : could not open file");
-        exit(EXIT_FAILURE);
-    }
+    assert_not_equal(outputFilePtr = fopen(fileName, "w+"), NULL);
+
     fputs(fileContents, outputFilePtr);
 
 #ifdef _WIN32
