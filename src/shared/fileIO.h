@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char *read_file(const char *fileName);
-void write_file(const char *fileName, const char *fileContents);
+char *read_file(const char *filePath);
+void write_file(const char *filePath, const char *fileContents);
 
 #endif
