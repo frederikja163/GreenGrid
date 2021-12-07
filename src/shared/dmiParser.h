@@ -1,17 +1,14 @@
-#ifndef CO2_DMIPARSER_H
+#ifndef DMI_PARSER_H
+#define DMI_PARSER_H
 
-#define CO2_DMIPARSER_H
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include <cJSON.h>
 
 typedef struct windValue {
     char* timestamp;
     double windspeed;
 } windValue;
-
-windValue* ParseStringToWind(const char *input, char *lastUpdate);
+windValue* load_wind_data(const char *input, char *lastUpdate);
+char* get_last_update_from_json(cJSON *json);
+windValue* get_all_wind_values(cJSON *json);
 
 #endif
-
