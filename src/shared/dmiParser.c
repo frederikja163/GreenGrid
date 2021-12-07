@@ -6,7 +6,7 @@
 #include "dmiParser.h"
 
 /*input ninjo2dnudk.json and you will get out an array of windValues and a timestamp for last update*/
-windValue* load_wind_data(const char *input, char *lastUpdate)
+windValue* load_wind_data(const char *input, char **lastUpdate)
 {
     cJSON *json = cJSON_Parse(input);
     if (json == NULL)
@@ -19,8 +19,8 @@ windValue* load_wind_data(const char *input, char *lastUpdate)
         return 0;
     }
     assert(json != NULL);
-    lastUpdate = get_last_update_from_json(json);
-    assert(lastUpdate != NULL);
+    get_last_update_from_json(json, &*lastUpdate);
+    assert(*lastUpdate != NULL);
     windValue *values = get_all_wind_values(json);
     assert(values != NULL);
     cJSON_Delete(json);
@@ -28,17 +28,14 @@ windValue* load_wind_data(const char *input, char *lastUpdate)
     return values;
 }
 
-char* get_last_update_from_json(cJSON *json)
+void get_last_update_from_json(cJSON *json, char **lastUpdate)
 {
     cJSON *lastUpdateJson = cJSON_GetObjectItem(json, "lastupdate");
     if (!(cJSON_IsString(lastUpdateJson) && lastUpdateJson->valuestring != NULL))
         return NULL;
     int strLen = strlen(lastUpdateJson->valuestring);
-    char* lastUpdate = (char*) malloc((strLen + 1) * sizeof(char));
-    if(lastUpdate == NULL)
-        return NULL;
-    strcpy(lastUpdate, lastUpdateJson->valuestring);
-    return lastUpdate;
+    *lastUpdate = (char*) malloc((strLen + 1) * sizeof(char));
+    strcpy(*lastUpdate, lastUpdateJson->valuestring);
 }
 
 windValue* get_all_wind_values(cJSON *json)

@@ -27,8 +27,9 @@ void test_read_of_last_updated(CuTest *tc)
     cJSON *json = cJSON_Parse(inputString);
     cJSON *lastUpdateJson = cJSON_GetObjectItem(json, "lastupdate");
     CuAssertTrue(tc, cJSON_IsString(lastUpdateJson) && (lastUpdateJson->valuestring != NULL));
-    char* lastUpdated = get_last_update_from_json(json);
-    CuAssertTrue(tc, strlen(lastUpdated) > 0);
+    char* lastUpdated;
+    get_last_update_from_json(json, &lastUpdated);
+    CuAssertTrue(tc, lastUpdated != NULL);
 
     cJSON_Delete(json);
     free(inputString);
@@ -39,9 +40,9 @@ void test_read_whole_json(CuTest *tc)
 {
     char *input = read_file("bin/ninjo2dmidk.json");
     char *lastUpdated;
-    windValue* windValues = load_wind_data(input, lastUpdated);
+    windValue* windValues = load_wind_data(input, &lastUpdated);
 
-    CuAssertTrue(tc, strlen(lastUpdated) > 0);
+    CuAssertTrue(tc, lastUpdated != NULL);
     CuAssertTrue(tc, windValues[96].timestamp != NULL);
 
     int i;
