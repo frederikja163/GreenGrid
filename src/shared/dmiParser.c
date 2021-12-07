@@ -13,7 +13,7 @@ windValue* load_wind_data(const char *input, char **lastUpdate)
         const char *error = cJSON_GetErrorPtr();
         if (error != NULL)
         {
-            printf("Error at: %s", error);
+            fprintf(stderr, "Error at: %s", error);
         }
         return 0;
     }

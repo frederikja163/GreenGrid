@@ -3,21 +3,38 @@
 #include <string.h>
 #include "fileIO.h"
 #include "calculateOptimalTime.h"
+#include "isDataOutdated.h"
 #include "assertExtensions.h"
 
 /* Algorithm to find the most optimal time to run based 
  * on array of windspeed data and the device's hours active
  */
-char* find_optimal_time(int activeHours) {
+char* find_optimal_time(int activeHours, int totalHours) {
+    if (totalHours > 53) { /* 1 hour interval stops after 53 hours. */
+        totalHours = 53;
+    }
+
     int i;
     char *inputString;
     char *updateTimeStamp;
     inputString = read_file("bin/ninjo2dmidk.json");
     windValue *values = load_wind_data(inputString, &updateTimeStamp);
     free(inputString);
+    
+    if (is_data_outdated(60 * 60, updateTimeStamp)) {
+        free(updateTimeStamp);
+        for (i = 0; i < 97; i++) {
+            free(values[i].timestamp);
+        }
+        free(values);
+        printf("Data is outdated, getting new data.\n");
+        system("curl \"https://www.dmi.dk/NinJo2DmiDk/ninjo2dmidk?cmd=llj&ids=2624886\" -o bin/ninjo2dmidk.json");
+        return find_optimal_time(6, totalHours);
+    }
+    
     free(updateTimeStamp);
 
-    char *optimalTime = find_lowest_co2(activeHours, values, DATA_SIZE);
+    char *optimalTime = find_lowest_co2(activeHours, values, totalHours);
 
     for (i = 0; i < 97; i++) {
         free(values[i].timestamp);
