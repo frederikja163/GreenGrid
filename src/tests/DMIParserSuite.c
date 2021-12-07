@@ -5,15 +5,7 @@
 #include "CuTest.h"
 #include "assertExtensions.h"
 #include "DMIParser.h"
-/*
-void CuAssert(CuTest* tc, char* message, int condition);
-void CuAssertTrue(CuTest* tc, int condition);
-void CuAssertStrEquals(CuTest* tc, char* expected, char* actual);
-void CuAssertIntEquals(CuTest* tc, int expected, int actual);
-void CuAssertPtrEquals(CuTest* tc, void* expected, void* actual);
-void CuAssertPtrNotNull(CuTest* tc, void* pointer);
- */
-/*TODO: fix so that these code snippets refer to functions instead of snippets of code from DMIParser*/
+
 void TestCJSONParse(CuTest *tc)
 {
     cJSON *json = cJSON_Parse(input);
