@@ -30,7 +30,7 @@ char *read_file(const char *filePath) {
     /* Read everything in file to fileContents */
     assert_equal(readSize = fread(fileContents, sizeof(char), fileSize, inputFilePtr), fileSize);
 
-    /* Convert array to null terminated string */
+    /* Convert char array to null terminated string */
     fileContents[fileSize] = '\0';
 
 /* Force files to use LF files endings if using any Windows OS */
