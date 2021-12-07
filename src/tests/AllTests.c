@@ -21,6 +21,7 @@ int run_all_tests(void) {
     printf("%s\n", output->buffer);
     return suite->failCount;
 }
+
 int main(void) {
     return run_all_tests();
 }

@@ -14,12 +14,9 @@ void test_cjson_parse(CuTest *tc)
     {
         const char *error = cJSON_GetErrorPtr();
         if (error != NULL)
-        {
-            printf("Error at: %s", error);
             CuAssert(tc, error, 0);
-            return;
-        }
-        CuAssertTrue(tc, 0);
+        else
+            CuAssertTrue(tc, 0);
     }
 }
 
