@@ -9,9 +9,9 @@
 /* Algorithm to find the most optimal time to run based 
  * on array of windspeed data and the device's hours active
  */
-char* find_optimal_time(int activeHours, int totalHours) {
-    if (totalHours > 53) { /* 1 hour interval stops after 53 hours. */
-        totalHours = 53;
+char* find_optimal_time(int activeHours, int startSearch, int endSearch) {
+    if (endSearch > 53) { /* 1 hour interval stops after 53 hours. */
+        endSearch = 53;
     }
 
     int i;
@@ -21,7 +21,8 @@ char* find_optimal_time(int activeHours, int totalHours) {
     windValue *values = load_wind_data(inputString, &updateTimeStamp);
     free(inputString);
     
-    if (is_data_outdated(60 * 60, updateTimeStamp)) {
+    double timeDiff = get_time_difference(updateTimeStamp);
+    if (timeDiff >= 1) {
         free(updateTimeStamp);
         for (i = 0; i < 97; i++) {
             free(values[i].timestamp);
@@ -29,13 +30,13 @@ char* find_optimal_time(int activeHours, int totalHours) {
         free(values);
         printf("Data is outdated, getting new data.\n");
         system("curl \"https://www.dmi.dk/NinJo2DmiDk/ninjo2dmidk?cmd=llj&ids=2624886\" -o bin/ninjo2dmidk.json");
-        return find_optimal_time(6, totalHours);
+        return find_optimal_time(activeHours, startSearch, endSearch);
     }
+    startSearch += timeDiff;
     
     free(updateTimeStamp);
 
-    char *optimalTime = find_lowest_co2(activeHours, values, totalHours);
-
+    char *optimalTime = find_lowest_co2(activeHours, values + startSearch, endSearch - startSearch);
     for (i = 0; i < 97; i++) {
         free(values[i].timestamp);
     }
