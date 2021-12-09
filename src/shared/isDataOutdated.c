@@ -7,10 +7,8 @@
 
 bool is_data_outdated(int maxTimeDiff, const char *receivingData) {
     time_t curTime = time(NULL);
-    /*  printf("Current timestamp = %ld\n", curTime); */
 
-    /* We are now converting the receiving data(Charachter string) into a timestamp via 
-    this function strptime and this timeptr struct. */
+    /* Converting receivingData into a timestamp via sscanf and the timeptr struct */
     struct tm timePtr;
     sscanf(receivingData, "%4d%02d%02d%02d%02d%02d",
            &timePtr.tm_year,
@@ -20,16 +18,14 @@ bool is_data_outdated(int maxTimeDiff, const char *receivingData) {
            &timePtr.tm_min,
            &timePtr.tm_sec);
 
+    /* Correcting the default data from time.h */
     timePtr.tm_year -= 1900;
     timePtr.tm_mon -= 1;
     timePtr.tm_isdst = -1;
 
     time_t timeToStamp = mktime(&timePtr);
 
-    /* printf("Receiving timestamp = %ld\n", timetostamp); */
-
     double timeDiff = difftime(curTime, timeToStamp);
-    /* printf("Difference between timestamps = %.0lf\n", timediff); */
 
     if (timeDiff > maxTimeDiff) {
         /* Data is outdated */
