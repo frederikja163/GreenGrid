@@ -6,7 +6,7 @@
 #include "calculateOptimalTime.h"
 
 
-
+/* This test a random runthrough of wind data */
 void test_optimal_time(CuTest *tc) {
     int activeHours = 3;
     windValue testArray[] = {
@@ -34,6 +34,7 @@ void test_optimal_time(CuTest *tc) {
     CuAssertStrEquals(tc, testArray[12].timestamp, optimalTime);
 }
 
+/* This tests a situation where all datapoints have too high wind speed, eg. a storm */
 void test_optimal_time2(CuTest *tc) {
     int activeHours = 3;
     windValue testArray[] = {
@@ -61,6 +62,7 @@ void test_optimal_time2(CuTest *tc) {
     CuAssertStrEquals(tc, testArray[0].timestamp, optimalTime);
 }
 
+/* Tests function that caluclates co2  */
 void test_calculate_co2 (CuTest *tc) {
     double testvalue = calculate_co2(14.4);
     CuAssertDblEquals(tc, 10.6, testvalue, 0.1);
