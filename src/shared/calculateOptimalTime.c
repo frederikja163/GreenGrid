@@ -10,8 +10,8 @@
  * on array of windspeed data and the device's hours active
  */
 char* find_optimal_time(int activeHours, int startSearch, int endSearch) {
-    if (endSearch > 53) { /* 1 hour interval stops after 53 hours. */
-        endSearch = 53;
+    if (endSearch > WINDVALUE_COUNT) {
+        endSearch = WINDVALUE_COUNT;
     }
 
     int i;
@@ -24,7 +24,7 @@ char* find_optimal_time(int activeHours, int startSearch, int endSearch) {
     double timeDiff = get_time_difference(updateTimeStamp);
     if (timeDiff >= 1) {
         free(updateTimeStamp);
-        for (i = 0; i < 97; i++) {
+        for (i = 0; i < WINDVALUE_COUNT; i++) {
             free(values[i].timestamp);
         }
         free(values);
@@ -37,7 +37,7 @@ char* find_optimal_time(int activeHours, int startSearch, int endSearch) {
     free(updateTimeStamp);
 
     char *optimalTime = find_lowest_co2(activeHours, values + startSearch, endSearch - startSearch);
-    for (i = 0; i < 97; i++) {
+    for (i = 0; i < WINDVALUE_COUNT; i++) {
         free(values[i].timestamp);
     }
     free(values);
@@ -68,7 +68,7 @@ char* find_lowest_co2(int activeHours, windValue *values, int dataSize) {
     double currentCO2 = 0;
     double lowestCO2 = 99999; 
     char *optimalTime = (char*) malloc(20*sizeof(char));
-    assert_not_equal(optimalTime = malloc(20), NULL);
+    assert_not_equal(optimalTime = malloc(15), NULL);
     
     for (i = 0; i < dataSize; i++) {
         currentCO2 += calculate_co2(values[i].windspeed);

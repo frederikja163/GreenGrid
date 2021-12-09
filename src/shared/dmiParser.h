@@ -3,6 +3,8 @@
 
 #include <cJSON.h>
 
+#define WINDVALUE_COUNT 53
+
 typedef struct windValue {
     char* timestamp;
     double windspeed;

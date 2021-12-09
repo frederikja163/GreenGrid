@@ -43,10 +43,12 @@ void test_read_whole_json(CuTest *tc)
     windValue* windValues = load_wind_data(input, &lastUpdated);
 
     CuAssertTrue(tc, lastUpdated != NULL);
-    CuAssertTrue(tc, windValues[96].timestamp != NULL);
-
     int i;
-    for (i = 0; i < 97; ++i) {
+    for (i = 0; i < 53; i++) {
+        CuAssertTrue(tc, windValues[i].timestamp != NULL);
+    }
+
+    for (i = 0; i < 53; ++i) {
         free(windValues[i].timestamp);
     }
     free(windValues);

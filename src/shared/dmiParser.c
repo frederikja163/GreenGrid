@@ -32,7 +32,7 @@ void get_last_update_from_json(cJSON *json, char **lastUpdate)
 {
     cJSON *lastUpdateJson = cJSON_GetObjectItem(json, "lastupdate");
     if (!(cJSON_IsString(lastUpdateJson) && lastUpdateJson->valuestring != NULL))
-        return NULL;
+        return;
     int strLen = strlen(lastUpdateJson->valuestring);
     *lastUpdate = (char*) malloc((strLen + 1) * sizeof(char));
     strcpy(*lastUpdate, lastUpdateJson->valuestring);
@@ -40,7 +40,7 @@ void get_last_update_from_json(cJSON *json, char **lastUpdate)
 
 windValue* get_all_wind_values(cJSON *json)
 {
-    windValue *values = (windValue*) malloc(97 * sizeof(windValue)); /*timeserie of size 97*/
+    windValue *values = (windValue*) malloc(WINDVALUE_COUNT * sizeof(windValue)); /*timeserie of size 97*/
     if (values == NULL)
         return NULL;
 
@@ -62,6 +62,9 @@ windValue* get_all_wind_values(cJSON *json)
         values[iterator].timestamp = (char*) calloc(15, sizeof(char));
         strcpy(values[iterator].timestamp, time->valuestring);
         iterator++;
+        if (iterator == WINDVALUE_COUNT) {
+            break;
+        }
     }
     return values;
 }
