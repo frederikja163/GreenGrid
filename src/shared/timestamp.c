@@ -1,4 +1,4 @@
-#include "isDataOutdated.h"
+#include "timestamp.h"
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -25,7 +25,7 @@ struct tm timestamp_to_tm(const char *timeStamp) {
         &timePtr.tm_min,
         &timePtr.tm_sec);
 
-    timePtr.tm_year -= 1900;
+    timePtr.tm_year = timePtr.tm_year - 1900;
     timePtr.tm_mon -= 1;
     timePtr.tm_isdst = -1;
 
