@@ -6,7 +6,7 @@
 #include "calculateOptimalTime.h"
 #define EPSILON 0.000001
 
-
+/* This test a random runthrough of wind data */
 void test_optimal_time(CuTest *tc) {
     int activeHours = 3;
     windValue testArray[] = {
@@ -34,6 +34,7 @@ void test_optimal_time(CuTest *tc) {
     CuAssertStrEquals(tc, testArray[12].timestamp, optimalTime);
 }
 
+/* This tests a situation where all datapoints have too high wind speed, eg. a storm */
 void test_optimal_time2(CuTest *tc) {
     int activeHours = 3;
     windValue testArray[] = {
@@ -61,6 +62,7 @@ void test_optimal_time2(CuTest *tc) {
     CuAssertStrEquals(tc, testArray[0].timestamp, optimalTime);
 }
 
+<<<<<<< HEAD
 void test_co2_bounds(CuTest *tc) {
     int activeHours = 3;
     windValue testArray[] = {
@@ -90,6 +92,9 @@ void test_co2_bounds(CuTest *tc) {
     CuAssertDblEquals(tc, calculate_co2(testArray[1].windspeed), highestCO2, EPSILON);
 }
 
+=======
+/* Tests function that caluclates co2  */
+>>>>>>> main
 void test_calculate_co2 (CuTest *tc) {
     CuAssertDblEquals(tc, 10.6, calculate_co2(14.4), EPSILON);
     CuAssertDblEquals(tc, 25.0, calculate_co2(25.1), EPSILON);
