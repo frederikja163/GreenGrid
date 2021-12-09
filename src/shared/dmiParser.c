@@ -32,7 +32,7 @@ void get_last_update_from_json(cJSON *json, char **lastUpdate)
 {
     cJSON *lastUpdateJson = cJSON_GetObjectItem(json, "lastupdate");
     if (!(cJSON_IsString(lastUpdateJson) && lastUpdateJson->valuestring != NULL))
-        return NULL;
+        return;
     int strLen = strlen(lastUpdateJson->valuestring);
     *lastUpdate = (char*) malloc((strLen + 1) * sizeof(char));
     strcpy(*lastUpdate, lastUpdateJson->valuestring);
