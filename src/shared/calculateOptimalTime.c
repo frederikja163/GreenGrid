@@ -3,23 +3,41 @@
 #include <string.h>
 #include "fileIO.h"
 #include "calculateOptimalTime.h"
+#include "timestamp.h"
 #include "assertExtensions.h"
 
 /* Algorithm to find the most optimal time to run based 
  * on array of windspeed data and the device's hours active
  */
-char* find_optimal_time(int activeHours) {
+char* find_optimal_time(int activeHours, int startSearch, int endSearch) {
+    if (endSearch > WINDVALUE_COUNT) {
+        endSearch = WINDVALUE_COUNT;
+    }
+
     int i;
     char *inputString;
     char *updateTimeStamp;
     inputString = read_file("bin/ninjo2dmidk.json");
     windValue *values = load_wind_data(inputString, &updateTimeStamp);
     free(inputString);
+    
+    double timeDiff = get_time_difference(updateTimeStamp);
+    if (timeDiff >= 1) {
+        free(updateTimeStamp);
+        for (i = 0; i < WINDVALUE_COUNT; i++) {
+            free(values[i].timestamp);
+        }
+        free(values);
+        printf("Data is outdated, getting new data.\n");
+        system("curl \"https://www.dmi.dk/NinJo2DmiDk/ninjo2dmidk?cmd=llj&ids=2624886\" -o bin/ninjo2dmidk.json");
+        return find_optimal_time(activeHours, startSearch, endSearch);
+    }
+    startSearch += timeDiff;
+    
     free(updateTimeStamp);
 
-    char *optimalTime = find_lowest_co2(activeHours, values, DATA_SIZE);
-
-    for (i = 0; i < 97; i++) {
+    char *optimalTime = find_lowest_co2(activeHours, values + startSearch, endSearch - startSearch);
+    for (i = 0; i < WINDVALUE_COUNT; i++) {
         free(values[i].timestamp);
     }
     free(values);
@@ -28,14 +46,31 @@ char* find_optimal_time(int activeHours) {
     return optimalTime;
 }
 
-char* find_lowest_co2(int activeHours, windValue *values, int data_size) {
+void find_upper_and_lower_bounds(windValue *values, int dataSize, double *lowestCO2, double *highestCO2) {
+    double currentCO2 = 0;
+    *lowestCO2 = 99999;
+    *highestCO2 = 0;
+    int i;
+
+    for (i = 0; i < dataSize; i++) {
+        currentCO2 = calculate_co2(values[i].windspeed);
+        if (currentCO2 > *highestCO2) {
+            *highestCO2 = currentCO2;
+        }
+        else if (currentCO2 < *lowestCO2) {
+            *lowestCO2 = currentCO2;
+        }
+    }
+}
+
+char* find_lowest_co2(int activeHours, windValue *values, int dataSize) {
     int i;
     double currentCO2 = 0;
     double lowestCO2 = 99999; 
     char *optimalTime = (char*) malloc(20*sizeof(char));
-    assert_not_equal(optimalTime = malloc(20), NULL);
+    assert_not_equal(optimalTime = malloc(15), NULL);
     
-    for (i = 0; i < data_size; i++) {
+    for (i = 0; i < dataSize; i++) {
         currentCO2 += calculate_co2(values[i].windspeed);
         if (i >= activeHours-1) {
             currentCO2 -= calculate_co2(values[i-activeHours].windspeed);

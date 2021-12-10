@@ -3,7 +3,7 @@
 
 CuSuite *get_file_io_suite(void);
 CuSuite *calculate_optimal_time_suite(void);
-CuSuite *get_outdated_data_suite(void);
+CuSuite *get_timestamp_suite(void);
 CuSuite *dmi_parser_suite(void);
 
 int run_all_tests(void) {
@@ -12,7 +12,7 @@ int run_all_tests(void) {
 
     CuSuiteAddSuite(suite, get_file_io_suite());
     CuSuiteAddSuite(suite, calculate_optimal_time_suite());
-    CuSuiteAddSuite(suite, get_outdated_data_suite());
+    CuSuiteAddSuite(suite, get_timestamp_suite());
     CuSuiteAddSuite(suite, dmi_parser_suite());
 
     CuSuiteRun(suite);
