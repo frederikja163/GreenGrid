@@ -17,16 +17,11 @@
 #define GRAPH_SIZE_Y 500
 #define GRAPH_AXIS_LABEL_SIZE 10
 
-static int f(int x) {
-    int value = (int)(cos((double)x / 3.141) * 100);
-    return value;
-}
-
 static void on_draw(GtkDrawingArea *drawing_area, cairo_t *cr, int width, int height, gpointer data) {
     width -= GRAPH_PADDING_X * 2;
     height -= GRAPH_PADDING_Y * 2;
 
-    char *inputString = read_file("bin/ninjo2dmidk.json");
+    char *inputString = read_file("data/ninjo2dmidk.json");
     char *updateTimeStamp;
     windValue *values = load_wind_data(inputString, &updateTimeStamp);
     free(inputString);
@@ -66,7 +61,7 @@ void application_activate(GApplication *application, gpointer userdata) {
     GtkWidget *window;
 
     window = gtk_application_window_new(GTK_APPLICATION(application));
-    gtk_window_set_title (GTK_WINDOW(window), "CO2 calculator");
+    gtk_window_set_title (GTK_WINDOW(window), "Greengrid");
     gtk_window_set_default_size (GTK_WINDOW(window), 500, 500);
     gtk_window_set_application(GTK_WINDOW(window), GTK_APPLICATION(application));
 

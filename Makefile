@@ -54,12 +54,12 @@ tests: shared $(testsObj)
 run: program
 	@echo
 	@echo =====[Running program]=====
-	./program.exe
+	./greengrid.exe
 
 program: shared $(programObj)
 	@echo
 	@echo =====[Linking program]=====
-	$(CC) $(sharedObj) $(programObj) -o ./program.exe $(CFLAGS)
+	$(CC) $(sharedObj) $(programObj) -o ./greengrid.exe $(CFLAGS)
 
 update:
 	@echo
