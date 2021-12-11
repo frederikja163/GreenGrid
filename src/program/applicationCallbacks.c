@@ -17,24 +17,39 @@
 #define GRAPH_SIZE_Y 500
 #define GRAPH_AXIS_LABEL_SIZE 10
 
+#define GET_X_VALUE(i, width, start, end) (GRAPH_PADDING_X + (i) * (width) / ((end) - (start)))
+#define GET_Y_VALUE(wind, height) (GRAPH_PADDING_Y + (25 - calculate_co2(wind)) * (height) / 25)
+
 static void on_draw(GtkDrawingArea *drawing_area, cairo_t *cr, int width, int height, gpointer data) {
     width -= GRAPH_PADDING_X * 2;
     height -= GRAPH_PADDING_Y * 2;
 
+    cairo_select_font_face(cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
+    cairo_set_source_rgb(cr, 0, 0, 0);
+
+    cairo_set_line_width(cr, 1);
+    int *args = (int*)data;
+    int activeHours = args[0];
+    int startHour = args[1];
+    int endHour = args[2];
+    char *optimal_time = find_optimal_time(activeHours, startHour, endHour);
+    cairo_move_to(cr, 250, 250);
+    cairo_show_text(cr, optimal_time);
+
+    cairo_show_text_format(cr, "Test %i", 1);
+
+    
+    /* Graph data. */
+    int i;
     char *inputString = read_file("data/ninjo2dmidk.json");
     char *updateTimeStamp;
     windValue *values = load_wind_data(inputString, &updateTimeStamp);
     free(inputString);
     free(updateTimeStamp);
-
-    cairo_select_font_face(cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
-    cairo_set_source_rgb(cr, 0, 0, 0);
-    
     cairo_set_line_width(cr, 0.75);
-    int i;
-    for (i = 0; i < 96; i++) {
-        printf("wind: %lf, co2: %lf\n", values[i].windspeed, calculate_co2(values[i].windspeed));
-        cairo_line_to(cr, GRAPH_PADDING_X + i * width / 96, GRAPH_PADDING_Y + (25 - calculate_co2(values[i].windspeed)) * height / 25);
+    cairo_move_to(cr, GET_X_VALUE(i, width, startHour, endHour), GET_Y_VALUE(values[i].windspeed, height));
+    for (i = 0; i < DATA_SIZE; i++) {
+        cairo_line_to(cr, GET_X_VALUE(i, width, startHour, endHour), GET_Y_VALUE(values[i].windspeed, height));
     }
     cairo_stroke(cr);
 
@@ -50,6 +65,7 @@ static void on_draw(GtkDrawingArea *drawing_area, cairo_t *cr, int width, int he
                         GRAPH_ARROW_LEG_LENGTH, GRAPH_ARROW_ANGLE);
     cairo_stroke(cr);
 
+    /* Draw axis labels. */
     cairo_set_font_size(cr, GRAPH_AXIS_LABEL_SIZE);
     cairo_move_to(cr, GRAPH_PADDING_X + width, GRAPH_PADDING_Y + height);
     cairo_show_text(cr, " Time");
@@ -68,7 +84,7 @@ void application_activate(GApplication *application, gpointer userdata) {
     GtkWidget *area;
     area = gtk_drawing_area_new();
     gtk_widget_allocate(area, 500, 500, -1, NULL);
-    gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(area), on_draw, NULL, NULL);
+    gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(area), on_draw, userdata, NULL);
     gtk_window_set_child(GTK_WINDOW(window), area);
     
     gtk_window_present(GTK_WINDOW(window));

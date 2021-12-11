@@ -1,7 +1,17 @@
 #include "cairoExtensions.h"
 #include <cairo.h>
 #include <math.h>
+#include <stdarg.h>
 #define PI 3.141592654
+
+void cairo_show_text_format(cairo_t *cr, char *format, ...) {
+    va_list args;
+
+    va_start(args, format);
+    g_print(format, args);
+    va_end(args);
+    
+}
 
 /* With help from math.stackexchange https://math.stackexchange.com/questions/1314006/drawing-an-arrow */
 void cairo_draw_arrow(cairo_t *cr, double startX, double startY, double endX, double endY, double legLength, double legAngle) {

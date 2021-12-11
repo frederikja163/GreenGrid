@@ -3,7 +3,7 @@
 
 #include <cJSON.h>
 
-#define WINDVALUE_COUNT 53
+#define WINDVALUE_COUNT 48
 
 typedef struct windValue {
     char* timestamp;
