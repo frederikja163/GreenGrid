@@ -44,11 +44,11 @@ void test_read_whole_json(CuTest *tc)
 
     CuAssertTrue(tc, lastUpdated != NULL);
     int i;
-    for (i = 0; i < 53; i++) {
+    for (i = 0; i < WINDVALUE_COUNT; i++) {
         CuAssertTrue(tc, windValues[i].timestamp != NULL);
     }
 
-    for (i = 0; i < 53; ++i) {
+    for (i = 0; i < WINDVALUE_COUNT; ++i) {
         free(windValues[i].timestamp);
     }
     free(windValues);
