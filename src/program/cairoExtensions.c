@@ -1,16 +1,20 @@
 #include "cairoExtensions.h"
 #include <cairo.h>
 #include <math.h>
-#include <stdarg.h>
+#include <string.h>
+#include "timestamp.h"
 #define PI 3.141592654
 
-void cairo_show_text_format(cairo_t *cr, char *format, ...) {
-    va_list args;
+void cairo_text_timestamp(cairo_t *cr, const char *text, const char *timeStamp) {
+    int len = strlen(text);
+    char *str = calloc(len + 13, sizeof(char));
+    struct tm time = timestamp_to_tm(timeStamp);
 
-    va_start(args, format);
-    g_print(format, args);
-    va_end(args);
-    
+    sprintf(str, "%s%02i/%02i %02i:%02i", text, time.tm_mday, time.tm_mon + 1, time.tm_hour, time.tm_min);
+
+    cairo_show_text(cr, str);
+
+    free(str);
 }
 
 /* With help from math.stackexchange https://math.stackexchange.com/questions/1314006/drawing-an-arrow */
