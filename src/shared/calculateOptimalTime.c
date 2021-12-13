@@ -10,6 +10,12 @@
  * on array of windspeed data and the device's hours active
  */
 char* find_optimal_time(int activeHours, int startSearch, int endSearch) {
+    FILE *file;
+    if ((file = fopen("data/ninjo2dmidk.json", "r")) == NULL) {
+        system("curl \"https://www.dmi.dk/NinJo2DmiDk/ninjo2dmidk?cmd=llj&ids=2624886\" -o data/ninjo2dmidk.json");
+    }
+    fclose(file);
+
     if (endSearch > WINDVALUE_COUNT) {
         endSearch = WINDVALUE_COUNT;
     }
@@ -17,7 +23,7 @@ char* find_optimal_time(int activeHours, int startSearch, int endSearch) {
     int i;
     char *inputString;
     char *updateTimeStamp;
-    inputString = read_file("bin/ninjo2dmidk.json");
+    inputString = read_file("data/ninjo2dmidk.json");
     windValue *values = load_wind_data(inputString, &updateTimeStamp);
     free(inputString);
     
@@ -29,7 +35,7 @@ char* find_optimal_time(int activeHours, int startSearch, int endSearch) {
         }
         free(values);
         printf("Data is outdated, getting new data.\n");
-        system("curl \"https://www.dmi.dk/NinJo2DmiDk/ninjo2dmidk?cmd=llj&ids=2624886\" -o bin/ninjo2dmidk.json");
+        system("curl \"https://www.dmi.dk/NinJo2DmiDk/ninjo2dmidk?cmd=llj&ids=2624886\" -o data/ninjo2dmidk.json");
         return find_optimal_time(activeHours, startSearch, endSearch);
     }
     startSearch += timeDiff;

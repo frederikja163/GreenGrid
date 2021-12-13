@@ -1,7 +1,6 @@
 #ifndef CALCULATEOPTIMALTIME_H
 
 #define CALCULATEOPTIMALTIME_H
-#define DATA_SIZE 53
 
 #include "dmiParser.h"
 

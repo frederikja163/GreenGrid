@@ -41,7 +41,7 @@ shared: $(sharedObj)
 	@echo
 	@echo =====[Compiling shared]=====
 
-test: tests
+test: update tests
 	@echo
 	@echo =====[Running tests]=====
 	./tests.exe
@@ -54,14 +54,15 @@ tests: shared $(testsObj)
 run: program
 	@echo
 	@echo =====[Running program]=====
-	./program.exe
+	./greengrid.exe 1 0 48
 
 program: shared $(programObj)
 	@echo
 	@echo =====[Linking program]=====
-	$(CC) $(sharedObj) $(programObj) -o ./program.exe $(CFLAGS)
+	$(CC) $(sharedObj) $(programObj) -o ./greengrid.exe $(CFLAGS)
 
 update:
 	@echo
 	@echo =====[Updating ninjo2dmidk.json]=====
-	curl "https://www.dmi.dk/NinJo2DmiDk/ninjo2dmidk?cmd=llj&ids=2624886" -o bin/ninjo2dmidk.json
+	mkdir -p data
+	curl "https://www.dmi.dk/NinJo2DmiDk/ninjo2dmidk?cmd=llj&ids=2624886" -o data/ninjo2dmidk.json

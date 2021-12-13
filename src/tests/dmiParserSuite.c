@@ -7,7 +7,7 @@
 
 void test_cjson_parse(CuTest *tc)
 {
-    char *inputString = read_file("bin/ninjo2dmidk.json");
+    char *inputString = read_file("data/ninjo2dmidk.json");
     cJSON *json = cJSON_Parse(inputString);
 
     if (json == NULL)
@@ -22,7 +22,7 @@ void test_cjson_parse(CuTest *tc)
 
 void test_read_of_last_updated(CuTest *tc)
 {
-    char *inputString = read_file("bin/ninjo2dmidk.json");
+    char *inputString = read_file("data/ninjo2dmidk.json");
 
     cJSON *json = cJSON_Parse(inputString);
     cJSON *lastUpdateJson = cJSON_GetObjectItem(json, "lastupdate");
@@ -38,17 +38,17 @@ void test_read_of_last_updated(CuTest *tc)
 
 void test_read_whole_json(CuTest *tc)
 {
-    char *input = read_file("bin/ninjo2dmidk.json");
+    char *input = read_file("data/ninjo2dmidk.json");
     char *lastUpdated;
     windValue* windValues = load_wind_data(input, &lastUpdated);
 
     CuAssertTrue(tc, lastUpdated != NULL);
     int i;
-    for (i = 0; i < 53; i++) {
+    for (i = 0; i < WINDVALUE_COUNT; i++) {
         CuAssertTrue(tc, windValues[i].timestamp != NULL);
     }
 
-    for (i = 0; i < 53; ++i) {
+    for (i = 0; i < WINDVALUE_COUNT; ++i) {
         free(windValues[i].timestamp);
     }
     free(windValues);
