@@ -48,6 +48,4 @@ void cairo_draw_arrow(cairo_t *cr, double startX, double startY, double endX, do
     /* Draw arrow legs. */
     cairo_line_to(cr, x3, y3);
     cairo_move_to(cr, x4, y4); cairo_line_to(cr, x2, y2);
-
-    /* g_print("start: (%i, %i), end: (%i, %i), leg1: (%lf, %lf), leg2: (%lf, %lf)\n", x1, y1, x2, y2, x3, y3, x4, y4); /**/
 }
