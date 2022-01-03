@@ -54,7 +54,7 @@ tests: shared $(testsObj)
 run: program
 	@echo
 	@echo =====[Running program]=====
-	./greengrid.exe 1 0 48
+	./greengrid.exe 1 0 47
 
 program: shared $(programObj)
 	@echo
