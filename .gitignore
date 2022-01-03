@@ -1,6 +1,7 @@
 .vscode/
 .idea/
 .vs/
+.data/
 *.o
 *.exe
 *.tmp
